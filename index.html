@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🥁 विस्थापित नगरचा राजा ढोल ताशा पथक निधी संकलन प्रणाली 🥁</title>
+<style>
+:root{--slate-900:#0f172a;--slate-800:#1e293b;--slate-700:#334155;--slate-600:#475569;--slate-100:#f1f5f9;--slate-50:#f8fafc;--brand-primary:#2563eb;--brand-success:#10b981;--brand-danger:#ef4444;--brand-warning:#f59e0b;--brand-purple:#7c3aed;--brand-cyan:#06b6d4;--radius-md:8px;--radius-lg:12px;--font-main:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--shadow-sm:0 1px 2px 0 rgba(0,0,0,.05);--shadow-md:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);--shadow-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+body{font-family:var(--font-main);margin:0;padding:0;background:#f4f6f9;color:var(--slate-700);-webkit-font-smoothing:antialiased}
+.app-header{position:sticky;top:0;background:radial-gradient(circle at top left,#1d2a3f 0,#020617 55%);color:#fff;padding:14px 2₀px;box-shadow:var(--shadow-lg);z-index:1₀₀;border-bottom:1px solid rgba(148,163,184,.35)}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:₁₂px;flex-wrap:wrap;gap:8px}
+.app-title{font-size:20px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:linear-gradient(to right,#e5e7eb,#c7d2fe);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin:0}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.card-metric{background:rgba(15,23,42,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:10px;border:1px solid rgba(148,163,184,.4);padding:10px 12px;box-shadow:0 8px 20px rgba(15,23,42,.35);display:grid;gap:4px}
+.card-metric:hover{background:rgba(15,23,42,.96);transform:translateY(-1px)}
+.metric-lbl{font-size:11px;color:#9ca3af;text-transform:uppercase;font-weight:700;margin:0;letter-spacing:.08em}
+.metric-val{font-size:18px;font-weight:800;color:#f9fafb}
+.card-metric.success{border-left:3px solid var(--brand-success)}.card-metric.danger{border-left:3px solid var(--brand-danger)}
+.action-bar{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid rgba(148,163,184,.45);flex-wrap:wrap;gap:12px}
+.action-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.field-label{font-size:12px;font-weight:600;color:#cbd5e1}
+.select-dropdown{padding:8px 14px;font-size:12px;border:1px solid var(--slate-600);border-radius:var(--radius-md);font-weight:700;background:#020617;color:#fff;outline:none;cursor:pointer;transition:border-color .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:12px;padding:8px 16px;border-radius:var(--radius-md);border:none;cursor:pointer;transition:all .2s ease;box-shadow:var(--shadow-sm)}
+.btn:active{transform:scale(.98)}
+.btn-secondary{background:#111827;color:#e5e7eb;border:1px solid rgba(156,163,175,.7)}.btn-secondary:hover{background:#020617}
+.btn-bulk-msg{background:var(--brand-cyan);color:#fff}.btn-bulk-msg:hover{background:#0891b2}
+.btn-edit{background:#4b5563;color:#fff}.btn-edit.active{background:var(--brand-warning);color:var(--slate-900)}
+.btn-table-wa{background:#22c55e;color:#fff;padding:4px 8px;font-size:10px;border-radius:4px;margin:0 auto;display:block}.btn-table-wa:hover{background:#16a34a}
+.btn-drawer-close{background:rgba(255,255,255,.04);color:#fff;padding:6px 10px}
+.data-viewport{overflow:auto;max-height:calc(100vh - 230px);margin:8px 16px 16px;background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);border:1px solid #e2e8f0}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:12px}
+th,td{border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:10px 14px;text-align:center;white-space:nowrap}
+thead tr:nth-child(1) th{position:sticky;top:0;background:var(--slate-50);color:var(--slate-800);z-index:20;font-weight:700;border-bottom:2px solid #cbd5e1;box-shadow:0 1px 0 #cbd5e1}
+.row-summary{background:#f8fafc;font-weight:700;color:var(--slate-900)}
+.lbl-sub{font-size:10px;color:#64748b;display:block;font-weight:600;margin-top:2px}
+td:nth-child(1),th:nth-child(1){position:sticky;left:0;background:#fff;z-index:10;font-weight:700;box-shadow:4px 0 8px rgba(0,0,0,.03);color:var(--slate-900);border-left:1px solid #e2e8f0;text-align:left}
+thead tr:nth-child(1) th:nth-child(1){z-index:30;background:var(--slate-50)}
+.row-summary td:nth-child(1){background:#f1f5f9}
+.select-matrix{font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;width:84px;text-align:center;outline:none;cursor:pointer;transition:all .15s ease}
+body:not(.edit-mode) .select-matrix{pointer-events:none;background-color:transparent!important;border:none;-webkit-appearance:none;appearance:none}
+/* moved inline-grid styling to a class to avoid inline styles */
+.two-column-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.two-column-grid .no-bottom{margin-bottom:0}
+.status-unpaid{color:var(--brand-danger);background:#fef2f2;border-color:#fecaca}
+.status-paid{color:var(--brand-success);background:#ecfdf5;border-color:#a7f3d0}
+tr.row-future{background:#fafafa;color:#94a3b8}
+tr.row-future .select-matrix{opacity:.35;pointer-events:none!important}
+.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.4);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:200;animation:fadeIn .2s ease}
+.drawer-surface{background:#0f172a;width:90%;max-width:420px;height:100%;box-sizing:border-box;overflow:hidden;box-shadow:-16px 0 40px rgba(15,23,42,.75);margin-left:auto;display:flex;flex-direction:column;animation:slideLeft .25s cubic-bezier(.16,1,.3,1);border-left:1px solid rgba(148,163,184,.5)}
+.drawer-header{background:#020617;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(148,163,184,.4)}
+.drawer-title{font-size:15px;font-weight:800;margin:0;letter-spacing:.08em;text-transform:uppercase}
+.drawer-body{padding:16px;overflow-y:auto;flex:1;background:#020617}
+.btn-close{background:rgba(255,255,255,.04);color:#fff;padding:6px 10px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
+.panel-card{background:#020617;border-radius:12px;padding:14px;margin-bottom:14px;box-shadow:0 10px 25px rgba(15,23,42,.7);border:1px solid rgba(55,65,81,.9)}
+.panel-card.panel-top-purple{border-top:3px solid var(--brand-purple)}
+.panel-card h3{margin:0 0 10px;font-size:12px;color:#e5e7eb;font-weight:800;border-bottom:1px solid rgba(31,41,55,.9);padding-bottom:6px;letter-spacing:.08em;text-transform:uppercase}
+.form-group{margin-bottom:12px;display:flex;flex-direction:column}
+.form-group label{font-size:11px;margin-bottom:6px;font-weight:700;color:#e5e7eb;text-transform:uppercase;letter-spacing:.05em}
+.input-modern,.select-modern{padding:10px 12px;border:1.5px solid #4b5563;border-radius:var(--radius-md);font-size:12px;outline:none;background:#020617;color:#e5e7eb;font-weight:600;transition:all .15s ease;width:100%;box-sizing:border-box}
+.input-modern::placeholder{color:#6b7280}
+.input-modern:focus,.select-modern:focus{border-color:var(--brand-primary);box-shadow:0 0 0 3px rgba(37,99,235,.35)}
+.btn-submit{width:100%;padding:10px;border-radius:var(--radius-md);font-weight:700;font-size:12px;border:none;color:#fff;cursor:pointer;box-shadow:var(--shadow-sm)}
+.btn-submit.btn-purple{background:var(--brand-purple)}
+.btn-submit.btn-success{background:var(--brand-success)}
+.btn-submit.btn-warning{background:var(--brand-warning);color:#000}
+.btn-submit.btn-danger{background:var(--brand-danger)}
+.btn-submit.btn-primary{background:var(--brand-primary)}
+.toast-notification{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(150%);background:var(--slate-900);color:#fff;padding:12px 24px;border-radius:50px;font-size:12px;font-weight:700;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;z-index:300;transition:transform .25s cubic-bezier(.175,.885,.32,1.15);pointer-events:none;border:1px solid rgba(255,255,255,.1)}
+.toast-notification.active{transform:translateX(-50%) translateY(0)}
+.toast-success{border-left:4px solid var(--brand-success)}.toast-danger{border-left:4px solid var(--brand-danger)}.toast-info{border-left:4px solid var(--brand-primary)}
+.login-modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.65);align-items:center;justify-content:center;z-index:400}
+.login-modal-box{background:#020617;border-radius:var(--radius-lg);padding:24px;width:min(100%,380px);box-shadow:var(--shadow-lg);border:1px solid rgba(148,163,184,.35)}
+.login-modal-title{margin:0 0 16px;font-size:15px;font-weight:800;color:#f1f5f9;letter-spacing:.05em;text-transform:uppercase}
+.login-modal-input{margin-bottom:8px}
+.login-modal-actions{display:flex;gap:8px}
+.login-modal-actions .btn-submit{flex:1;padding:10px}
+.login-modal-cancel{background:#374151}
+.login-error{display:none;color:#fca5a5;font-size:12px;font-weight:700;margin-bottom:12px}
+.section-divider{border-bottom:1px dashed #1f2937;padding-bottom:12px;margin-bottom:12px}
+.grid-two-column{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.grid-two-column .form-group{margin-bottom:0}
+.search-toolbar{display:flex;justify-content:flex-end;padding:8px 16px 0;gap:8px;align-items:center;flex-wrap:wrap}
+.search-toolbar label{font-size:12px;color:#4b5563;font-weight:600}
+.search-input{padding:6px 10px;border-radius:999px;border:1px solid #cbd5e1;font-size:12px;min-width:180px;outline:none}
+#live-timestamp{font-size:12px;color:#94a3b8;font-weight:600}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideLeft{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@media(max-width:900px){.metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.data-viewport{max-height:calc(100vh - 260px)}}
+@media(max-width:600px){.metrics-grid{grid-template-columns:1fr}.app-header{padding:12px}.data-viewport{margin:10px;max-height:calc(100vh - 260px);border-radius:10px}table{font-size:11px}th,td{padding:6px 8px}}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-top">
+    <h1 class="app-title">🥁 ढोल ताशा पथक निधी संकलन</h1>
+    <div id="live-timestamp">प्रणाली डॅशबोर्ड</div>
+  </div>
+  <div class="metrics-grid">
+    <div class="card-metric"><div class="metric-lbl">एकूण सभासद</div><div class="metric-val" id="m-count">0</div></div>
+    <div class="card-metric"><div class="metric-lbl" id="target-title-label">उद्दिष्ट निधी</div><div class="metric-val" id="m-target">₹0</div></div>
+    <div class="card-metric success"><div class="metric-lbl">एकूण जमा</div><div class="metric-val" id="m-collected">₹0</div></div>
+    <div class="card-metric danger"><div class="metric-lbl">एकूण थकबाकी</div><div class="metric-val" id="m-outstanding">₹0</div></div>
+  </div>
+  <div class="action-bar">
+    <div class="action-group">
+      <button class="btn btn-secondary" onclick="openDrawer()">⚙️ नियंत्रण पॅनेल</button>
+      <button class="btn btn-bulk-msg" onclick="copyGroupStatusReportMessage()">📢 ग्रुप मेसेज कॉपी करा</button>
+      <button class="btn btn-secondary" onclick="exportDataBackup()" title="Backup Data">💾 बॅकअप</button>
+    </div>
+    <div class="action-group">
+      <label class="field-label" for="timeline-filter">दिनांक फिल्टर:</label>
+      <select id="timeline-filter" class="select-dropdown" onchange="applyFilterScope()">
+        <option value="-1">🗓️ संपूर्ण वेळापत्रक (All Weeks)</option>
+      </select>
+    </div>
+    <button class="btn btn-edit" id="editToggleBtn" onclick="toggleEditMode()">🛠️ एडिट करा</button>
+  </div>
+</div>
+
+<div class="search-toolbar">
+  <label for="member-search">🔍 सभासद शोधा:</label>
+  <input id="member-search" class="search-input" type="text" placeholder="नाव टाइप करा..." oninput="handleMemberSearch(this.value)">
+</div>
+
+<div class="drawer-overlay" id="settingsOverlay" onclick="closeDrawer()">
+  <div class="drawer-surface" onclick="event.stopPropagation()">
+    <div class="drawer-header">
+      <h2 class="drawer-title">⚙️ सिस्टम नियंत्रण कक्ष</h2>
+      <button type="button" class="btn btn-close" onclick="closeDrawer()">बंद करा</button>
+    </div>
+    <div class="drawer-body">
+      <div class="panel-card panel-top-purple">
+        <h3>💵 बल्क हप्ते स्थिती बदला (Date Range)</h3>
+        <div class="form-group"><label>सभासद निवडा:</label><select id="bulk-select-member" class="select-modern"></select></div>
+                <div class="two-column-grid">
+                    <div class="form-group no-bottom"><label>या तारखेपासून:</label><select id="bulk-start-date" class="select-modern"></select></div>
+                    <div class="form-group no-bottom"><label>या तारखेपर्यंत:</label><select id="bulk-end-date" class="select-modern"></select></div>
+                </div>
+        <div class="form-group"><label>हप्ता स्थिती:</label><select id="bulk-status-value" class="select-modern"><option value="1">✅ जमा (Paid)</option><option value="0">❌ बाकी (Unpaid)</option></select></div>
+        <button type="button" class="btn-submit btn-purple" onclick="executeBulkDateRangePayment()">सुरक्षित करा</button>
+      </div>
+    <div class="panel-card panel-top-success">
+        <h3>👤 सभासद व्यवस्थापन</h3>
+        <div class="section-divider">
+          <div class="form-group"><label>नवीन सभासदाचे नाव:</label><input type="text" id="add-name" class="input-modern" placeholder="उदा. राहुल शिंदे"></div>
+          <div class="form-group"><label>साप्ताहिक वर्गणी:</label><select id="add-rate" class="select-modern"><option value="50">₹50</option><option value="30">₹30</option><option value="25" selected>₹25</option><option value="20">₹20</option><option value="15">₹15</option></select></div>
+          <button type="button" class="btn-submit btn-success" onclick="addMemberNode()">➕ सभासद जोडा</button>
+        </div>
+        <div class="section-divider">
+          <div class="form-group"><label>बदलायचा सभासद:</label><select id="edit-select-member" class="select-modern" onchange="syncSelectedRate()"></select></div>
+          <div class="form-group"><label>नवीन हप्ता रक्कम:</label><select id="edit-rate-value" class="select-modern"><option value="50">₹50</option><option value="30">₹30</option><option value="25">₹25</option><option value="20">₹20</option><option value="15">₹15</option></select></div>
+          <button type="button" class="btn-submit btn-warning" onclick="updateMemberRate()">💾 अपडेट करा</button>
+        </div>
+        <div>
+          <div class="form-group"><label>काढायचा सभासद:</label><select id="remove-select-member" class="select-modern"></select></div>
+          <button type="button" class="btn-submit btn-danger" onclick="removeMemberNode()">❌ डिलीट करा</button>
+        </div>
+      </div>
+    <div class="panel-card panel-top-primary">
+        <h3>📅 वेळापत्रक व्यवस्थापन</h3>
+        <div class="section-divider">
+          <div class="form-group"><label>नवीन तारीख:</label><input type="text" id="add-installment-date" class="input-modern" placeholder="उदा. Jun-19"></div>
+          <button type="button" class="btn-submit btn-primary" onclick="addInstallmentWeek()">➕ तारीख जोडा</button>
+        </div>
+        <div class="section-divider">
+          <div class="form-group"><label>बदलायची तारीख:</label><select id="edit-select-installment" class="select-modern" onchange="syncSelectedInstallmentDate()"></select></div>
+          <div class="form-group"><label>सुधारित तारीख:</label><input type="text" id="edit-installment-date-val" class="input-modern"></div>
+          <button type="button" class="btn-submit btn-warning" onclick="updateInstallmentWeek()">💾 बदला</button>
+        </div>
+        <div>
+          <div class="form-group"><label>काढायची तारीख:</label><select id="remove-select-installment" class="select-modern"></select></div>
+          <button type="button" class="btn-submit btn-danger" onclick="removeInstallmentWeek()">❌ डिलीट करा</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="snackbar" class="toast-notification"><span id="snackbar-icon">🔔</span><span id="snackbar-text">प्रोसेस पूर्ण झाली.</span></div>
+
+<div class="data-viewport">
+  <table id="fundTable"><thead id="table-head"></thead><tbody id="table-body"></tbody></table>
+</div>
+
+<!-- Login Modal -->
+<div id="loginModalOverlay" class="login-modal-overlay">
+    <div class="login-modal-box">
+    <h3 id="loginModalTitle" class="login-modal-title"></h3>
+        <input id="loginModalInput" type="password" placeholder="Password दाखल करा..." onkeydown="if(event.key==='Enter')submitLoginModal()" class="input-modern login-modal-input"/>
+        <div id="loginModalError" class="login-error">❌ चुकीचा Password!</div>
+        <div class="login-modal-actions">
+            <button onclick="submitLoginModal()" class="btn-submit btn-primary">✅ Login</button>
+            <button onclick="cancelLoginModal()" class="btn-submit login-modal-cancel">❌ Cancel</button>
+        </div>
+  </div>
+</div>
+
+<script>
+// ===== ROLE-BASED SECURITY =====
+const ADMIN_PASSWORD = 'admin1234';   // 🔑 Change this
+const MEMBER_PASSWORD = 'member1234'; // 🔑 Change this
+var authRole = 'none'; // resets every page load
+
+function showLoginModal(role, onSuccess) {
+    const overlay = document.getElementById('loginModalOverlay');
+    const title   = document.getElementById('loginModalTitle');
+    const input   = document.getElementById('loginModalInput');
+    const errMsg  = document.getElementById('loginModalError');
+    title.innerText = role === 'admin' ? '🔐 Admin Login' : '👁️ Member Access';
+    input.value = '';
+    errMsg.style.display = 'none';
+    overlay.style.display = 'flex';
+    input.focus();
+    window._loginResolve = (result) => { overlay.style.display = 'none'; if (result) onSuccess(); };
+    window._loginRole = role;
+}
+function submitLoginModal() {
+    const input  = document.getElementById('loginModalInput');
+    const errMsg = document.getElementById('loginModalError');
+    const pass   = input.value;
+    const role   = window._loginRole;
+    const ok     = role === 'admin' ? pass === ADMIN_PASSWORD : pass === MEMBER_PASSWORD;
+    if (!ok) { errMsg.style.display = 'block'; input.value = ''; input.focus(); return; }
+    authRole = role;
+    window._loginResolve(true);
+}
+function cancelLoginModal() { window._loginResolve(false); }
+function requireAdmin(onSuccess) {
+    if (authRole === 'admin') { onSuccess(); return; }
+    showLoginModal('admin', () => { authRole = 'admin'; onSuccess(); });
+}
+function requireMember(onSuccess) {
+    if (authRole === 'member' || authRole === 'admin') { onSuccess(); return; }
+    showLoginModal('member', () => { authRole = 'member'; onSuccess(); });
+}
+// ===== END SECURITY =====
+
+var membersData = [
+    { name: "अमित शिंगाडे", rate: 50 }, { name: "पवन लक्ष्मीकांत", rate: 25 },
+    { name: "आदित्य डोंबे", rate: 25 }, { name: "पार्थ डोंबे", rate: 20 },
+    { name: "सिद्धार्थ जोगी", rate: 25 }, { name: "समर्थ शिवशरण", rate: 25 },
+    { name: "समर्थ माळी", rate: 25 }, { name: "सार्थक माळी", rate: 25 },
+    { name: "सोहम धोत्रे", rate: 25 }, { name: "सुरज धोत्रे", rate: 50 },
+    { name: "ठाकूर", rate: 15 }, { name: "सचिन शिंगाडे", rate: 50 },
+    { name: "पार्थ तारे", rate: 15 }, { name: "आर्थन कोली", rate: 30 },
+    { name: "विठ्ठल खिस्ते", rate: 25 }, { name: "महेश पवार", rate: 25 },
+    { name: "आदित्य कोळी", rate: 15 }, { name: "ओंकार कोळी", rate: 25 },
+    { name: "सोहम ननवरे", rate: 15 }
+];
+
+var weeks = [
+    "Sep-13","Sep-25","Sep-27","Oct-25","Oct-11","Oct-18","Oct-25","Nov-1",
+    "Nov-8","Nov-15","Nov-22","Nov-29","Dec-6","Dec-13","Dec-20","Dec-27",
+    "Jan-3","Jan-10","Jan-17","Jan-24","Jan-31","Feb-7","Feb-14","Feb-21",
+    "Feb-28","Mar-7","Mar-14","Mar-21","Mar-28","Apr-4","Apr-11","Apr-18",
+    "Apr-25","May-2","May-9","May-16","May-23","May-30","Jun-6","Jun-13",
+    "Jun-20","Jun-27","Jul-4","Jul-11","Jul-18","Jul-25","Aug-1","Aug-8",
+    "Aug-15","Aug-22","Aug-29","Sep-5","Sep-12"
+];
+
+var paymentsMatrix = Array(200).fill(null).map(() => Array(200).fill(0));
+var isEditMode = false;
+var selectedTimelineIndex = -1;
+var memberGlobalCollected = [];
+var memberGlobalWeeksCount = [];
+var memberGlobalTargets = [];
+const STORAGE_KEY = "dhol-tasha-fund-state-v1";
+var filteredMemberIndexes = [];
+var currentSearchTerm = "";
+
+function showNotification(message, type = "success") {
+    const el = document.getElementById("snackbar");
+    const txt = document.getElementById("snackbar-text");
+    const ico = document.getElementById("snackbar-icon");
+    txt.innerText = message;
+    el.className = "toast-notification active";
+    el.classList.remove("toast-success","toast-danger","toast-info");
+    if (type === "success") { el.classList.add("toast-success"); ico.innerText = "✅"; }
+    else if (type === "danger") { el.classList.add("toast-danger"); ico.innerText = "🚨"; }
+    else { el.classList.add("toast-info"); ico.innerText = "ℹ️"; }
+    setTimeout(() => el.classList.remove("active"), 2800);
+}
+
+function syncTimestamp() {
+    const el = document.getElementById("live-timestamp");
+    el.innerText = new Date().toLocaleString("en-IN", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
+}
+
+function syncTimelineFilterOptions() {
+    const select = document.getElementById("timeline-filter");
+    const cachedVal = select.value;
+    select.innerHTML = '<option value="-1">🏁 संपूर्ण वेळापत्रक (All Weeks)</option>';
+    weeks.forEach((wk, i) => {
+        let opt = document.createElement("option");
+        opt.value = i;
+        opt.innerText = `📅 ${wk} पर्यंतची स्थिती`;
+        select.appendChild(opt);
+    });
+    if (parseInt(cachedVal) < weeks.length) {
+        select.value = cachedVal;
+        selectedTimelineIndex = parseInt(cachedVal);
+    } else {
+        select.value = "-1";
+        selectedTimelineIndex = -1;
+    }
+}
+
+function applyFilterScope() {
+    selectedTimelineIndex = parseInt(document.getElementById("timeline-filter").value);
+    renderControlGridMatrix();
+    saveState();
+    showNotification("डेटा फिल्टर अपडेट झाला आहे.", "info");
+}
+
+function openDrawer() {
+    requireAdmin(() => {
+        populateDrawerDropdowns();
+        document.getElementById("settingsOverlay").style.display = "block";
+    });
+}
+
+function closeDrawer() { document.getElementById("settingsOverlay").style.display = "none"; }
+
+function toggleEditMode() {
+    if (authRole !== "admin") { requireAdmin(() => toggleEditMode()); return; }
+    isEditMode = !isEditMode;
+    const btn = document.getElementById("editToggleBtn");
+    document.body.classList.toggle("edit-mode", isEditMode);
+    btn.innerText = isEditMode ? "💾 सेव्ह करा" : "🛠️ एडिट करा";
+    btn.classList.toggle("active", isEditMode);
+    showNotification(isEditMode ? "संपादन मोड सुरू झाला आहे." : "सर्व बदल सेव्ह झाले!", isEditMode ? "info" : "success");
+    if (!isEditMode) saveState();
+}
+
+function populateDrawerDropdowns() {
+    const editM = document.getElementById("edit-select-member");
+    const remM  = document.getElementById("remove-select-member");
+    const bulkM = document.getElementById("bulk-select-member");
+    const editI = document.getElementById("edit-select-installment");
+    const remI  = document.getElementById("remove-select-installment");
+    const bulkS = document.getElementById("bulk-start-date");
+    const bulkE = document.getElementById("bulk-end-date");
+    [editM,remM,bulkM,editI,remI,bulkS,bulkE].forEach(el => el.innerHTML = "");
+    membersData.forEach((m, idx) => {
+        const label = `${m.name} (₹${m.rate})`;
+        editM.appendChild(new Option(label, idx));
+        remM.appendChild(new Option(m.name, idx));
+        bulkM.appendChild(new Option(label, idx));
+    });
+    weeks.forEach((wk, idx) => {
+        editI.appendChild(new Option(wk, idx));
+        remI.appendChild(new Option(wk, idx));
+        bulkS.appendChild(new Option(wk, idx));
+        let optEnd = new Option(wk, idx);
+        if (idx === weeks.length - 1) optEnd.selected = true;
+        bulkE.appendChild(optEnd);
+    });
+    syncSelectedRate();
+    syncSelectedInstallmentDate();
+}
+
+function syncSelectedRate() {
+    const idx = document.getElementById("edit-select-member").value;
+    if (idx !== "") document.getElementById("edit-rate-value").value = membersData[idx].rate;
+}
+
+function syncSelectedInstallmentDate() {
+    const idx = document.getElementById("edit-select-installment").value;
+    if (idx !== "") document.getElementById("edit-installment-date-val").value = weeks[idx];
+}
+
+function executeBulkDateRangePayment() {
+    const mIdx   = parseInt(document.getElementById("bulk-select-member").value);
+    const start  = parseInt(document.getElementById("bulk-start-date").value);
+    const end    = parseInt(document.getElementById("bulk-end-date").value);
+    const status = parseInt(document.getElementById("bulk-status-value").value);
+    if (start > end) { showNotification("त्रुटी: सुरुवातीची तारीख चुकीची आहे!", "danger"); return; }
+    for (let w = start; w <= end; w++) paymentsMatrix[w][mIdx] = status;
+    closeDrawer(); renderControlGridMatrix(); saveState();
+    showNotification("बल्क डेटा यशस्वीरित्या अपडेट केला!", "success");
+}
+
+function addInstallmentWeek() {
+    const val = document.getElementById("add-installment-date").value.trim();
+    if (!val) return;
+    weeks.push(val);
+    for (let m = 0; m < membersData.length; m++) paymentsMatrix[weeks.length - 1][m] = 0;
+    document.getElementById("add-installment-date").value = "";
+    syncTimelineFilterOptions(); closeDrawer(); renderControlGridMatrix(); saveState();
+    showNotification("नवीन तारीख वेळापत्रकात समाविष्ट केली.", "success");
+}
+
+function updateInstallmentWeek() {
+    const idx = parseInt(document.getElementById("edit-select-installment").value);
+    const val = document.getElementById("edit-installment-date-val").value.trim();
+    if (!val) return;
+    weeks[idx] = val;
+    syncTimelineFilterOptions(); closeDrawer(); renderControlGridMatrix(); saveState();
+    showNotification("तारीख यशस्वीरित्या बदलली.", "success");
+}
+
+function removeInstallmentWeek() {
+    const idx = document.getElementById("remove-select-installment").value;
+    if (idx === "" || !confirm("निवडलेली तारीख डिलीट करायची का?")) return;
+    paymentsMatrix.splice(parseInt(idx), 1); 
+    paymentsMatrix.push(Array(100).fill(0));
+    weeks.splice(parseInt(idx), 1);
+    syncTimelineFilterOptions(); closeDrawer(); renderControlGridMatrix(); saveState();
+    showNotification("तारीख डिलीट केली.", "danger");
+}
+
+function addMemberNode() {
+    const name = document.getElementById("add-name").value.trim();
+    const rate = parseInt(document.getElementById("add-rate").value);
+    if (!name) return;
+    membersData.push({ name, rate });
+    for (let w = 0; w < weeks.length; w++) paymentsMatrix[w][membersData.length - 1] = 0;
+    document.getElementById("add-name").value = "";
+    closeDrawer();
+    filteredMemberIndexes = membersData.map((_, idx) => idx);
+    renderControlGridMatrix(); saveState();
+    showNotification("नवीन सभासद जोडला गेला.", "success");
+}
+
+function updateMemberRate() {
+    const idx = parseInt(document.getElementById("edit-select-member").value);
+    membersData[idx].rate = parseInt(document.getElementById("edit-rate-value").value);
+    closeDrawer(); renderControlGridMatrix(); saveState();
+    showNotification("सभासदाची रक्कम अपडेट केली.", "success");
+}
+
+function removeMemberNode() {
+    const idx = document.getElementById("remove-select-member").value;
+    if (idx === "" || !confirm("सभासद डिलीट करायचा का?")) return;
+    for (let w = 0; w < paymentsMatrix.length; w++) { paymentsMatrix[w].splice(parseInt(idx), 1); paymentsMatrix[w].push(0); }
+    membersData.splice(parseInt(idx), 1);
+    closeDrawer();
+    filteredMemberIndexes = membersData.map((_, i) => i);
+    renderControlGridMatrix(); saveState();
+    showNotification("सभासद हटवला गेला.", "danger");
+}
+
+function captureStateModification(select, w, m) {
+    paymentsMatrix[w][m] = parseInt(select.value);
+    calculateFinancialMetrics();
+    saveState();
+}
+
+function handleMemberSearch(rawTerm) {
+    currentSearchTerm = rawTerm.trim().toLowerCase();
+    filteredMemberIndexes = currentSearchTerm
+        ? membersData.reduce((a, m, i) => (m.name.toLowerCase().includes(currentSearchTerm) && a.push(i), a), [])
+        : membersData.map((_, idx) => idx);
+    renderControlGridMatrix();
+}
+
+function renderControlGridMatrix() {
+    const thead = document.getElementById("table-head");
+    const tbody = document.getElementById("table-body");
+    thead.innerHTML = ""; tbody.innerHTML = "";
+    if (!filteredMemberIndexes || filteredMemberIndexes.length === 0) {
+        thead.innerHTML = currentSearchTerm ? "<tr><th>कोणताही सभासद सापडला नाही.</th></tr>" : "<tr><th>माहिती उपलब्ध नाही.</th></tr>";
+        calculateFinancialMetrics(); return;
+    }
+    let trNames = document.createElement("tr");
+    trNames.innerHTML = "<th>सराव दिनांक (Weeks)</th>";
+    filteredMemberIndexes.forEach(memberIndex => {
+        const m = membersData[memberIndex];
+        trNames.innerHTML += `<th>${m.name}<span class="lbl-sub">₹${m.rate} / आठवडा</span></th>`;
+    });
+    thead.appendChild(trNames);
+
+    const mkRow = (label, idPrefix, style = "") => {
+        let tr = document.createElement("tr");
+        tr.className = "row-summary";
+        tr.style.cssText = style;
+        tr.innerHTML = `<td>${label}</td>`;
+        filteredMemberIndexes.forEach(i => tr.innerHTML += `<td id="${idPrefix}-${i}">0</td>`);
+        thead.appendChild(tr);
+    };
+    mkRow("हप्ते संख्या (जमा)", "h");
+    mkRow("एकूण जमा निधी", "c", "color:var(--brand-success)");
+    mkRow("थकबाकी रक्कम", "p", "color:var(--brand-danger)");
+
+    let trMsg = document.createElement("tr");
+    trMsg.className = "row-summary";
+    trMsg.innerHTML = "<td>कृती मेसेज</td>";
+    filteredMemberIndexes.forEach(i => trMsg.innerHTML += `<td><button class="btn-table-wa" onclick="sendWhatsAppNotification(${i})">WhatsApp</button></td>`);
+    thead.appendChild(trMsg);
+
+    weeks.forEach((date, wIdx) => {
+        let row = document.createElement("tr");
+        let isFuture = selectedTimelineIndex !== -1 && wIdx > selectedTimelineIndex;
+        if (isFuture) row.className = "row-future";
+        row.innerHTML = `<td>${date}${isFuture ? ' 🔒' : ''}</td>`;
+        filteredMemberIndexes.forEach(mIdx => {
+            let status = paymentsMatrix[wIdx][mIdx] || 0;
+            row.innerHTML += `<td><select class="select-matrix ${status ? 'status-paid' : 'status-unpaid'}" ${isFuture ? 'disabled' : ''} onchange="captureStateModification(this,${wIdx},${mIdx})"><option value="0" ${status === 0 ? 'selected' : ''}>❌ बाकी</option><option value="1" ${status === 1 ? 'selected' : ''}>✅ जमा</option></select></td>`;
+        });
+        tbody.appendChild(row);
+    });
+    calculateFinancialMetrics();
+}
+
+function calculateFinancialMetrics() {
+    if (!document.getElementById("m-count")) return;
+    let colGlobal = 0, tarGlobal = 0;
+    memberGlobalCollected  = Array(membersData.length).fill(0);
+    memberGlobalWeeksCount = Array(membersData.length).fill(0);
+    memberGlobalTargets    = Array(membersData.length).fill(0);
+    let activeWeeks = selectedTimelineIndex === -1 ? weeks.length : selectedTimelineIndex + 1;
+    membersData.forEach((m, idx) => { memberGlobalTargets[idx] = m.rate * activeWeeks; tarGlobal += memberGlobalTargets[idx]; });
+
+    const rows = document.getElementById("table-body").getElementsByTagName("tr");
+    for (let w = 0; w < weeks.length; w++) {
+        if (!rows[w]) continue;
+        const cells = rows[w].getElementsByTagName("td");
+        let isFuture = selectedTimelineIndex !== -1 && w > selectedTimelineIndex;
+        filteredMemberIndexes.forEach((m, idxPos) => {
+            const select = cells[idxPos + 1] ? cells[idxPos + 1].querySelector("select") : null;
+            const isPaid = paymentsMatrix[w][m] || 0;
+            if (select) select.className = `select-matrix ${isPaid ? 'status-paid' : 'status-unpaid'}`;
+            if (!isFuture && isPaid) {
+                memberGlobalWeeksCount[m]++;
+                memberGlobalCollected[m] += membersData[m].rate;
+                colGlobal += membersData[m].rate;
+            }
+        });
+    }
+    filteredMemberIndexes.forEach(m => {
+        const h = document.getElementById(`h-${m}`);
+        const c = document.getElementById(`c-${m}`);
+        const p = document.getElementById(`p-${m}`);
+        if (h) h.innerText = memberGlobalWeeksCount[m];
+        if (c) c.innerText = `₹${memberGlobalCollected[m].toLocaleString('en-IN')}`;
+        if (p) p.innerText = `₹${(memberGlobalTargets[m] - memberGlobalCollected[m]).toLocaleString('en-IN')}`;
+    });
+    document.getElementById("target-title-label").innerText = selectedTimelineIndex === -1 ? "उद्दिष्ट निधी" : "निवडलेल्या कालावधीचे उद्दिष्ट";
+    document.getElementById("m-count").innerText = membersData.length;
+    document.getElementById("m-target").innerText = `₹${tarGlobal.toLocaleString('en-IN')}`;
+    document.getElementById("m-collected").innerText = `₹${colGlobal.toLocaleString('en-IN')}`;
+    document.getElementById("m-outstanding").innerText = `₹${(tarGlobal - colGlobal).toLocaleString('en-IN')}`;
+}
+
+function sendWhatsAppNotification(mIndex) {
+    if (authRole === "none") { requireMember(() => sendWhatsAppNotification(mIndex)); return; }
+    const m = membersData[mIndex];
+    const pending = memberGlobalTargets[mIndex] - memberGlobalCollected[mIndex];
+    const text = `${m.name} (₹${m.rate})\n---------------------------------\nहप्ते: ${memberGlobalWeeksCount[mIndex]}\nजमा: ₹${memberGlobalCollected[mIndex].toLocaleString('en-IN')}\nथकबाकी: ₹${pending.toLocaleString('en-IN')}`;
+    navigator.clipboard.writeText(text).then(() => showNotification(`${m.name} साठी WhatsApp मजकूर कॉपी केला.`, "success"));
+}
+
+function copyGroupStatusReportMessage() {
+    if (authRole === "none") { requireMember(() => copyGroupStatusReportMessage()); return; }
+    const activeScopeText = selectedTimelineIndex === -1 ? "संपूर्ण वेळापत्रक" : weeks[selectedTimelineIndex];
+    let clearSection = "", pendingSection = "", clearCount = 0, pendingCount = 0;
+    let activeWeeks = selectedTimelineIndex === -1 ? weeks.length : selectedTimelineIndex + 1;
+
+    membersData.forEach((m, idx) => {
+        const pendingAmount = memberGlobalTargets[idx] - memberGlobalCollected[idx];
+        if (pendingAmount === 0) {
+            clearSection += `  ✅ ${m.name}\n`;
+            clearCount++;
+        } else {
+            const remainingInstallments = activeWeeks - memberGlobalWeeksCount[idx];
+            pendingSection += `  ⚠️ ${m.name} — ₹${pendingAmount.toLocaleString('en-IN')} (${remainingInstallments} हप्ते बाकी)\n`;
+            pendingCount++;
+        }
+    });
+
+    const now = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+
+    const groupMessage = [
+        `🥁 ढोल ताशा पथक — निधी स्थिती अहवाल`,
+        `📅 दिनांक: ${now}`,
+        `📊 कालावधी: ${activeScopeText}`,
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+        ``,
+        `✅ हप्ते पूर्ण सभासद (${clearCount})`,
+        `──────────────────────────`,
+        clearCount ? clearSection.trim() : `  — कोणीही नाही —`,
+        ``,
+        `⚠️ हप्ते बाकी सभासद (${pendingCount})`,
+        `──────────────────────────`,
+        pendingCount ? pendingSection.trim() : `  — सर्वांचे हप्ते पूर्ण —`,
+        ``,
+        `━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+        `🙏 कृपया लवकरात लवकर हप्ता भरावा.`,
+        `— पथक व्यवस्थापन`
+    ].join("\n");
+
+    navigator.clipboard.writeText(groupMessage)
+        .then(() => showNotification("ग्रुप मेसेज कॉपी केला.", "success"));
+}
+
+function exportDataBackup() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(localStorage.getItem(STORAGE_KEY));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "dhol_tasha_backup_" + new Date().toISOString().slice(0,10) + ".json");
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
+function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ membersData, weeks, paymentsMatrix, selectedTimelineIndex })); }
+    catch (e) { console.error(e); }
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const state = JSON.parse(raw);
+        if (state.membersData)    membersData    = state.membersData;
+        if (state.weeks)          weeks          = state.weeks;
+        if (state.paymentsMatrix) paymentsMatrix = state.paymentsMatrix;
+        if (typeof state.selectedTimelineIndex === "number") selectedTimelineIndex = state.selectedTimelineIndex;
+    } catch (e) { console.error(e); }
+}
+
+function init() {
+    loadState();
+    filteredMemberIndexes = membersData.map((_, idx) => idx);
+    syncTimestamp();
+    setInterval(syncTimestamp, 60000);
+    syncTimelineFilterOptions();
+    renderControlGridMatrix();
+}
+init();
+</script>
+</body>
+</html>
